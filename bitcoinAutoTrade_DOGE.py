@@ -5,7 +5,7 @@ import requests
 
 access = "5EFyZxldBNoX3sdrm9JCGTxo8goaJNd9CezhmgwP"
 secret = "W4yijzxKU9YeLoBZn6nhc7iGfU6jnsObUPoIlU3Q"
-myToken = "xoxb-1998829143459-2022495266384-nZknkOAN3yfN8HbJWIRKAiSr"
+myToken = "xoxb-1998829143459-2022495266384-7drUjbzQAsDCiNl5sPOJC8ED"
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -55,7 +55,7 @@ while True:
         # post_message(myToken,"#crypto", "running")
         # 9:00 < 현재 < #8:59:50
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-DOGE", 0.002)  # k값 변화에 따라
+            target_price = get_target_price("KRW-DOGE", 0.2)  # k값 변화에 따라
             current_price = get_current_price("KRW-DOGE")
             if target_price < current_price:
                 krw = get_balance("KRW")
