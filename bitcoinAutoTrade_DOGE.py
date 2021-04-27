@@ -2,8 +2,6 @@ import time
 import pyupbit
 import datetime
 import requests
-import schedule
-import threading
 
 access = "5EFyZxldBNoX3sdrm9JCGTxo8goaJNd9CezhmgwP"
 secret = "W4yijzxKU9YeLoBZn6nhc7iGfU6jnsObUPoIlU3Q"
