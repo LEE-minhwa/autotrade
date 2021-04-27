@@ -7,7 +7,7 @@ import threading
 
 access = "5EFyZxldBNoX3sdrm9JCGTxo8goaJNd9CezhmgwP"
 secret = "W4yijzxKU9YeLoBZn6nhc7iGfU6jnsObUPoIlU3Q"
-myToken = "xoxb-1998829143459-2022495266384-Yo5AZ471fOo6baEv9RqK02gB"
+myToken = "xoxb-1998829143459-2022495266384-8AluetTyDwS17Sb3WStsNf1h"
 
 def fun_timer():
     timer = threading.Timer(600,fun_timer)
