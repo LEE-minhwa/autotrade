@@ -2,12 +2,11 @@ import time
 import pyupbit
 import datetime
 import requests
-import schedule
 import threading
 
 access = "5EFyZxldBNoX3sdrm9JCGTxo8goaJNd9CezhmgwP"
 secret = "W4yijzxKU9YeLoBZn6nhc7iGfU6jnsObUPoIlU3Q"
-myToken = "xoxb-1998829143459-2022495266384-TgGx6IDR7tfgxDFYqoZx01eY"
+myToken = "xoxb-1998829143459-2022495266384-kutFzvqsRzRQmmRQDTSOsbUP"
 
 def fun_timer():
     timer = threading.Timer(600,fun_timer)
