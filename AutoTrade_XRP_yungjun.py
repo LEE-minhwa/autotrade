@@ -9,7 +9,7 @@ secret = "eUdhpZrtbPSzx6dQiuc0U6ZBA3LdoKQJUGZ7aoox"
 myToken = "xoxb-1998829143459-2004233692743-jMyJNrPh1s4QLdOJDJmEoZCo"
 
 def fun_timer():
-    timer = threading.Timer(600,fun_timer)
+    timer = threading.Timer(1200,fun_timer)
     post_message(myToken,"#yungjun", "running")
     timer.start()
 

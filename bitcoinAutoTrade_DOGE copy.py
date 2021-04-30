@@ -6,10 +6,10 @@ import threading
 
 access = "5EFyZxldBNoX3sdrm9JCGTxo8goaJNd9CezhmgwP"
 secret = "W4yijzxKU9YeLoBZn6nhc7iGfU6jnsObUPoIlU3Q"
-myToken = "xoxb-1998829143459-2022495266384-kutFzvqsRzRQmmRQDTSOsbUP"
+myToken = "xoxb-1998829143459-2022495266384-ghUAmSORbKimqXto0MnY8ew0"
 
 def fun_timer():
-    timer = threading.Timer(600,fun_timer)
+    timer = threading.Timer(1200,fun_timer)
     post_message(myToken,"#crypto", "running")
     timer.start()
 
