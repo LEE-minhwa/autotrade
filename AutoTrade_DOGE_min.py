@@ -4,9 +4,9 @@ import datetime
 import requests
 import threading
 
-access = "Tmgxa6qGebzmVlozAR8G3nMboeuxxxiOkXewnXQM"
-secret = "eUdhpZrtbPSzx6dQiuc0U6ZBA3LdoKQJUGZ7aoox"
-myToken = "xoxb-1998829143459-2004233692743-jMyJNrPh1s4QLdOJDJmEoZCo"
+access = "5EFyZxldBNoX3sdrm9JCGTxo8goaJNd9CezhmgwP"
+secret = "W4yijzxKU9YeLoBZn6nhc7iGfU6jnsObUPoIlU3Q"
+myToken = "xoxb-1998829143459-2038503074870-cRxmSRovsh3SdgtdoYU2sdzW"
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -45,7 +45,7 @@ def get_current_price(ticker):
 upbit = pyupbit.Upbit(access, secret)
 print("자동매매 시작합니다.")
 # 시작 메세지 슬랙 전송
-post_message(myToken,"#yungjun", "자동매매 시작합니다.")
+post_message(myToken,"#crypto", "자동매매 시작합니다.")
 timer = 0
 count = 1
 
@@ -53,16 +53,16 @@ count = 1
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-XRP") #9:00
+        start_time = get_start_time("KRW-DOGE") #9:00
         end_time = start_time + datetime.timedelta(days=1) #9:00 + 1일
         # 9:00 < 현재 < #8:59:50
         timer += 1
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-XRP", 0.2)  # k값 변화에 따라
-            current_price = get_current_price("KRW-XRP")
+            target_price = get_target_price("KRW-DOGE", 0.2)  # k값 변화에 따라
+            current_price = get_current_price("KRW-DOGE")
             if timer > 7200:
-                post_message(myToken,"#yungjun", "오늘의 목표가 : "+ str(target_price))
-                post_message(myToken,"#yungjun", "오늘의 매수가 : "+ str(int(target_price*0.97)))
+                post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(target_price))
+                post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(int(target_price*0.98)))
                 timer = 0
             if target_price < current_price < target_price*1.1:
                 krw = get_balance("KRW")
@@ -71,19 +71,19 @@ while True:
                     if count == 1:
                         deposit_buy = krw
                         count = 0
-                    buy_result = upbit.buy_limit_order("KRW-XRP", int(target_price*0.97), krw/(int(target_price*0.972)))
-                    post_message(myToken,"#yungjun", "XRP 매수결과 : " + str(buy_result))
+                    buy_result = upbit.buy_limit_order("KRW-DOGE", int(target_price*0.98), krw/(int(target_price*0.982)))
+                    post_message(myToken,"#crypto", "DOGE 매수결과 : " + str(buy_result))
         else:
-            btc = get_balance("XRP")
+            btc = get_balance("DOGE")
             if btc > 0.00008:
-                sell_result = upbit.sell_market_order("KRW-XRP", btc*0.9995)
+                sell_result = upbit.sell_market_order("KRW-DOGE", btc*0.9995)
                 deposit_sell = get_balance("KRW")
-                post_message(myToken,"#yungjun", "XRP 매도결과 : " + str(sell_result))
-                post_message(myToken,"#yungjun", "일일 수익금 : " + deposit_sell-deposit_buy)
-                post_message(myToken,"#yungjun", "일일 수익율 : " + (deposit_sell-deposit_buy)/deposit_buy)
+                post_message(myToken,"#crypto", "DOGE 매도결과 : " + str(sell_result))
+                post_message(myToken,"#crypto", "일일 수익금 : " + deposit_sell-deposit_buy)
+                post_message(myToken,"#crypto", "일일 수익율 : " + (deposit_sell-deposit_buy)/deposit_buy)
                 count = 1
         time.sleep(1)
     except Exception as e:
         print(e)
-        post_message(myToken,"#yungjun", e)
-        time.sleep(1)
+        post_message(myToken,"#crypto", e)
+        time.sleep(1) 
