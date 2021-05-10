@@ -46,8 +46,6 @@ upbit = pyupbit.Upbit(access, secret)
 print("자동매매 시작합니다.")
 # 시작 메세지 슬랙 전송
 post_message(myToken,"#yungjun", "자동매매 시작합니다.")
-timer = 0
-count = 1
 
 # 자동매매 시작
 while True:
@@ -56,34 +54,24 @@ while True:
         start_time = get_start_time("KRW-ETC") #9:00
         end_time = start_time + datetime.timedelta(days=1) #9:00 + 1일
         # 9:00 < 현재 < #8:59:50
-        timer += 1
+        if timer == 1:
+            post_message(myToken,"#yungjun", "Today target_price =" + str(target_price))
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-ETC", 0.2)  # k값 변화에 따라
+            target_price = get_target_price("KRW-ETC", 0.1)  # k값 변화에 따라
             current_price = get_current_price("KRW-ETC")
-            if timer > 7200:
-                post_message(myToken,"#yungjun", "오늘의 목표가 : "+ str(target_price))
-                post_message(myToken,"#yungjun", "오늘의 매수가 : "+ str(int(target_price*0.98)))
-                timer = 0
-            if target_price < current_price < target_price*1.1:
+            if target_price < current_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    #buy_result = upbit.buy_market_order("KRW-DOGE", krw*0.9995)
-                    if count == 1:
-                        deposit_buy = krw
-                        count = 0
-                    buy_result = upbit.buy_limit_order("KRW-ETC", int(target_price*0.98), krw/(int(target_price*0.982)))
-                    post_message(myToken,"#yungjun", "ETC 매수결과 : " + str(buy_result))
+                    buy_result = upbit.buy_market_order("KRW-ETC", krw*0.9995)
+                    post_message(myToken,"#yungjun", "ETC 매수 결과 : " + str(buy_result))
         else:
             btc = get_balance("ETC")
             if btc > 0.00008:
                 sell_result = upbit.sell_market_order("KRW-ETC", btc*0.9995)
-                deposit_sell = get_balance("KRW")
-                post_message(myToken,"#yungjun", "ETC 매도결과 : " + str(sell_result))
-                post_message(myToken,"#yungjun", "일일 수익금 : " + deposit_sell-deposit_buy)
-                post_message(myToken,"#yungjun", "일일 수익율 : " + (deposit_sell-deposit_buy)/deposit_buy)
-                count = 1
+                post_message(myToken,"#yungjun", "ETC 매도 결과 : " + str(sell_result))
+                timer = 1
         time.sleep(1)
     except Exception as e:
         print(e)
         post_message(myToken,"#yungjun", e)
-        time.sleep(1)
+        time.sleep(1) 
