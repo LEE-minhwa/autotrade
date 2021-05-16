@@ -2,7 +2,6 @@ import time
 import pyupbit
 import datetime
 import requests
-import threading
 
 access = "H6jq1r1cKUYzgm6hNeVLXw9aVkvVPKwzECNUANc8"
 secret = "xJJ12UPXKFlxILPPM5FqnmVVbkm5FcJZqNa2S8b8"
@@ -45,7 +44,7 @@ def get_current_price(ticker):
 upbit = pyupbit.Upbit(access, secret)
 print("자동매매 시작합니다.")
 # 시작 메세지 슬랙 전송
-post_message(myToken,"#crypto", "자동매매 시작합니다.")
+post_message(myToken,"#crypto", "DOGE 자동매매 시작합니다.")
 timer = 0
 count = 1
 order_count = 0
@@ -64,8 +63,8 @@ while True:
             target_price = get_target_price("KRW-DOGE", 0.2)  # k값 변화에 따라
             current_price = get_current_price("KRW-DOGE")
             if timer > 7200:
-                post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(target_price))
-                post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(int(target_price*0.97)))
+                post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(int(target_price)))
+                post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(int(target_price*0.98)))
                 timer = 0
             if target_price < current_price < target_price*1.1:
                 krw = get_balance("KRW")
@@ -74,16 +73,16 @@ while True:
                     if count == 1:
                         deposit_buy = krw
                         count = 0
-                    buy_result = upbit.buy_limit_order("KRW-DOGE", int(target_price*0.97), krw/(int(target_price*0.972)))
+                    buy_result = upbit.buy_limit_order("KRW-DOGE", int(target_price*0.98), krw/(int(target_price*0.982)))
                     post_message(myToken,"#crypto", "DOGE 매수결과 : " + str(buy_result))
         else:
             btc = get_balance("DOGE")
             if btc > 0.00008:
                 sell_result = upbit.sell_market_order("KRW-DOGE", btc*0.9995)
-                deposit_sell = get_balance("KRW")
+                deposit_sell = upbit.get_amount('ALL')
                 post_message(myToken,"#crypto", "DOGE 매도결과 : " + str(sell_result))
-                #post_message(myToken,"#crypto", "일일 수익금 : " + str(int(deposit_sell-deposit_buy)))
-                #post_message(myToken,"#crypto", "일일 수익율 : " + str(float((deposit_sell-deposit_buy)/deposit_buy)))
+                post_message(myToken,"#crypto", "일일 수익금 : " + str(int(deposit_sell-deposit_buy)))
+                post_message(myToken,"#crypto", "일일 수익율 : " + str(int((deposit_sell-deposit_buy)/deposit_buy)))
                 while order_count < 4:  # 미체결된 매수주문 취소
                     order=upbit.get_order("KRW-DOGE",'wait','normal')[0]
                     upbit.cancel_order(order['uuid'])
