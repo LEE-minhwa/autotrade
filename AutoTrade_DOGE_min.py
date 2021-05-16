@@ -6,7 +6,7 @@ import threading
 
 access = "H6jq1r1cKUYzgm6hNeVLXw9aVkvVPKwzECNUANc8"
 secret = "xJJ12UPXKFlxILPPM5FqnmVVbkm5FcJZqNa2S8b8"
-myToken = ""
+myToken = "xoxb-1998829143459-2022495266384-OIBJT9HoWgSfi8tuXkF0tFl9"
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
