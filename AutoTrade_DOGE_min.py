@@ -6,7 +6,7 @@ import threading
 
 access = "H6jq1r1cKUYzgm6hNeVLXw9aVkvVPKwzECNUANc8"
 secret = "xJJ12UPXKFlxILPPM5FqnmVVbkm5FcJZqNa2S8b8"
-myToken = "xoxb-1998829143459-2022495266384-OIBJT9HoWgSfi8tuXkF0tFl9"
+myToken = ""
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -82,8 +82,8 @@ while True:
                 sell_result = upbit.sell_market_order("KRW-DOGE", btc*0.9995)
                 deposit_sell = get_balance("KRW")
                 post_message(myToken,"#crypto", "DOGE 매도결과 : " + str(sell_result))
-                post_message(myToken,"#crypto", "일일 수익금 : " + deposit_sell-deposit_buy)
-                post_message(myToken,"#crypto", "일일 수익율 : " + (deposit_sell-deposit_buy)/deposit_buy)
+                #post_message(myToken,"#crypto", "일일 수익금 : " + str(int(deposit_sell-deposit_buy)))
+                #post_message(myToken,"#crypto", "일일 수익율 : " + str(float((deposit_sell-deposit_buy)/deposit_buy)))
                 while order_count < 4:  # 미체결된 매수주문 취소
                     order=upbit.get_order("KRW-DOGE",'wait','normal')[0]
                     upbit.cancel_order(order['uuid'])
