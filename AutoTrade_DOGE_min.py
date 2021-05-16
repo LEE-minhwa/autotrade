@@ -4,9 +4,9 @@ import datetime
 import requests
 import threading
 
-access = "5EFyZxldBNoX3sdrm9JCGTxo8goaJNd9CezhmgwP"
-secret = "W4yijzxKU9YeLoBZn6nhc7iGfU6jnsObUPoIlU3Q"
-myToken = "xoxb-1998829143459-2022495266384-Om4QvyrzXyA0tsrW0SoWMewM"
+access = "H6jq1r1cKUYzgm6hNeVLXw9aVkvVPKwzECNUANc8"
+secret = "xJJ12UPXKFlxILPPM5FqnmVVbkm5FcJZqNa2S8b8"
+myToken = ""
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -48,6 +48,8 @@ print("자동매매 시작합니다.")
 post_message(myToken,"#crypto", "자동매매 시작합니다.")
 timer = 0
 count = 1
+order_count = 0
+
 
 # 자동매매 시작
 while True:
@@ -57,6 +59,7 @@ while True:
         end_time = start_time + datetime.timedelta(days=1) #9:00 + 1일
         # 9:00 < 현재 < #8:59:50
         timer += 1
+        order_count = 0
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             target_price = get_target_price("KRW-DOGE", 0.2)  # k값 변화에 따라
             current_price = get_current_price("KRW-DOGE")
@@ -81,6 +84,10 @@ while True:
                 post_message(myToken,"#crypto", "DOGE 매도결과 : " + str(sell_result))
                 post_message(myToken,"#crypto", "일일 수익금 : " + deposit_sell-deposit_buy)
                 post_message(myToken,"#crypto", "일일 수익율 : " + (deposit_sell-deposit_buy)/deposit_buy)
+                while order_count < 4:  # 미체결된 매수주문 취소
+                    order=upbit.get_order("KRW-DOGE",'wait','normal')[0]
+                    upbit.cancel_order(order['uuid'])
+                    order_count += 1
                 count = 1
         time.sleep(1)
     except Exception as e:
