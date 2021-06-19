@@ -5,7 +5,7 @@ import requests
 
 access = "H6jq1r1cKUYzgm6hNeVLXw9aVkvVPKwzECNUANc8"
 secret = "xJJ12UPXKFlxILPPM5FqnmVVbkm5FcJZqNa2S8b8"
-myToken = "xoxb-1998829143459-2022495266384-mLRs8Z2ArV9oUK2UmVdIypkA"
+myToken = ""
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -72,8 +72,8 @@ while True:
             if (target_price < current_price < target_price*1.1) and (ma5 < current_price):
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    #buy_result = upbit.buy_market_order("KRW-BTC", krw*0.9995) #시장가 매수
-                    buy_result = upbit.buy_limit_order("KRW-BTC", int(target_price*0.98), float(krw/(target_price*0.982)))
+                    buy_result = upbit.buy_market_order("KRW-BTC", krw*0.9995) #시장가 매수
+                    #buy_result = upbit.buy_limit_order("KRW-BTC", int(target_price*0.98), float(krw/(target_price*0.982)))
                     post_message(myToken,"#crypto", "BTC 매수결과 : " + str(buy_result))
         else:
             btc = get_balance("BTC")
