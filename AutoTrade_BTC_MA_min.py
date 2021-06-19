@@ -60,20 +60,20 @@ while True:
         start_time = get_start_time("KRW-BTC") #9:00
         end_time = start_time + datetime.timedelta(days=1) #9:00 + 1일
         # 9:00 < 현재 < #8:59:50
-        timer += 1
+        #timer += 1
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             target_price = get_target_price("KRW-BTC", 0.3)  # k값 변화에 따라
             ma5 = get_ma5("KRW-BTC")
             current_price = get_current_price("KRW-BTC")
-            if timer > 7200:
+            #if timer > 7200:
                 #post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(target_price))
                 #post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(target_price*0.98))
-                timer = 0
+                #timer = 0
             if (target_price < current_price < target_price*1.1) and (ma5 < current_price):
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    buy_result = upbit.buy_market_order("KRW-BTC", krw*0.9995) #시장가 매수
-                    #buy_result = upbit.buy_limit_order("KRW-BTC", int(target_price*0.98), float(krw/(target_price*0.982)))
+                    #buy_result = upbit.buy_market_order("KRW-BTC", krw*0.9995) #시장가 매수
+                    buy_result = upbit.buy_limit_order("KRW-BTC", int(target_price*0.98), float(krw/(target_price*0.982)))
                     post_message(myToken,"#crypto", "BTC 매수결과 : " + str(buy_result))
         else:
             btc = get_balance("BTC")
