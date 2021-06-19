@@ -66,8 +66,8 @@ while True:
             ma5 = get_ma5("KRW-BTC")
             current_price = get_current_price("KRW-BTC")
             if timer > 7200:
-                post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(target_price))
-                post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(target_price*0.98))
+                #post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(target_price))
+                #post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(target_price*0.98))
                 timer = 0
             if (target_price < current_price < target_price*1.1) and (ma5 < current_price):
                 krw = get_balance("KRW")
