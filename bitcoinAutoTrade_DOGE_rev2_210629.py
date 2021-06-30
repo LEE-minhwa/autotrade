@@ -57,17 +57,18 @@ while True:
         # 9:00 < 현재 < #8:59:50
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             target_price = get_target_price("KRW-ETH", 0.3)  # k값 변화에 따라
+            print(target_price)
             current_price = get_current_price("KRW-ETH")
             if timer > 7200:
                 post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(target_price))
-                post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(target_price*0.99))
+                post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(target_price*0.98))
                 timer = 0
             if target_price < current_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
                     #buy_result = upbit.buy_market_order("KRW-ETH", krw*0.9995)
-                    print(round(int(target_price*0.99),-3))
-                    buy_result = upbit.buy_limit_order("KRW-ETH", round(int(target_price*0.99),-3), float(krw/(target_price*0.992)))
+                    print(round(int(target_price*0.98),-3))
+                    buy_result = upbit.buy_limit_order("KRW-ETH", round(int(target_price*0.98),-3), float(krw/(target_price*0.982)))
                     post_message(myToken,"#crypto", "ETH buy : " + str(buy_result))
         else:
             btc = get_balance("ETH")
