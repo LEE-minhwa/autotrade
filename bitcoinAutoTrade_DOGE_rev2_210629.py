@@ -5,7 +5,7 @@ import requests
 
 access = "H6jq1r1cKUYzgm6hNeVLXw9aVkvVPKwzECNUANc8"
 secret = "xJJ12UPXKFlxILPPM5FqnmVVbkm5FcJZqNa2S8b8"
-myToken = ""
+myToken = "xoxb-1998829143459-2022495266384-47Krc25xW7JmoC3KRXm6kPNJ"
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -52,21 +52,26 @@ timer = 7500
 while True:
     try:
         now = datetime.datetime.now()
+        print(now)
         start_time = get_start_time("KRW-ETH") #9:00
         end_time = start_time + datetime.timedelta(days=1) #9:00 + 1일
         # 9:00 < 현재 < #8:59:50
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             target_price = get_target_price("KRW-ETH", 0.2)  # k값 변화에 따라
             current_price = get_current_price("KRW-ETH")
+            krw = get_balance("KRW")
+            print(round(int(target_price*0.98),-3))
+            print(float(krw/(target_price*0.982)))
             if timer > 7200:
                 post_message(myToken,"#crypto", "오늘의 목표가 : "+ str(target_price))
                 post_message(myToken,"#crypto", "오늘의 매수가 : "+ str(target_price*0.98))
+                post_message(myToken,"#crypto", "현재 잔고 : "+ str(int(get_balance("KRW"))))
                 timer = 0
             if target_price < current_price < target_price*1.2:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    buy_result = upbit.buy_market_order("KRW-ETH", krw*0.9995)
-                    #buy_result = upbit.buy_limit_order("KRW-ETH", round(int(target_price*0.98),-3), float(krw/(target_price*0.982)))
+                    #buy_result = upbit.buy_market_order("KRW-ETH", krw*0.9995)
+                    buy_result = upbit.buy_limit_order("KRW-ETH", round(int(target_price*0.98),-3), float(krw/(target_price*0.982)))
                     post_message(myToken,"#crypto", "ETH buy : " + str(buy_result))
         else:
             btc = get_balance("ETH")
