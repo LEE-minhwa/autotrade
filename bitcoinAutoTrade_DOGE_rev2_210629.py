@@ -46,7 +46,6 @@ print("autotrade start")
 # 시작 메세지 슬랙 전송
 post_message(myToken,"#crypto", "ETH start")
 timer = 7500
-order_count = 0
 
 # 자동매매 시작
 while True:
@@ -69,21 +68,14 @@ while True:
             if target_price < current_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    #buy_result = upbit.buy_market_order("KRW-ETH", krw*0.9995)
-                    buy_result = upbit.buy_limit_order("KRW-ETH", round(int(target_price*0.99),-3), float(krw/(target_price*0.992)))
+                    buy_result = upbit.buy_market_order("KRW-ETH", krw*0.9995)
+                    #buy_result = upbit.buy_limit_order("KRW-ETH", round(int(target_price*0.99),-3), float(krw/(target_price*0.992)))
                     post_message(myToken,"#crypto", "매수 결과 : " + str(buy_result))
         else:
             btc = get_balance("ETH")
             if btc > 0.00008:
                 sell_result = upbit.sell_market_order("KRW-ETH", btc*0.9995)
-                order=upbit.get_order("KRW-DOGE",'wait','normal')[0]
-                upbit.cancel_order(order['uuid'])
-                upbit.cancel_order(order['uuid'])
                 post_message(myToken,"#crypto", "매도 결과 : " + str(sell_result))
-                while order_count < 4:  # 미체결된 매수주문 취소
-                    order=upbit.get_order("KRW-DOGE",'wait','normal')[0]
-                    upbit.cancel_order(order['uuid'])
-                    order_count += 1
         time.sleep(1)
     except Exception as e:
         print(e)
